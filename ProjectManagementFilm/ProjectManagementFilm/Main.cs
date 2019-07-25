@@ -72,9 +72,25 @@ namespace ProjectManagementFilm
                 lb.Location = new Point(30, ylocal);
                 this.pn.Controls.Add(lb);
 
+                Label lbStar = new Label();
+                lbStar.Text = dataFilm[i].favorite.ToString();
+                lbStar.Size = new Size(15, 30);
+                lbStar.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
+                lbStar.ForeColor = Color.Red;
+                lbStar.Location = new Point(605, ylocal+1);
+                this.pn.Controls.Add(lbStar);
+
+                PictureBox pbstar = new PictureBox();
+                pbstar.Size = new Size(20, 20);
+                pbstar.Location = new Point(620, ylocal);
+                Bitmap pbStarImg = new Bitmap(Application.StartupPath + "\\Resources\\icons8_Star_Filled_48px.png");
+                pbstar.Image = pbStarImg;
+                pbstar.SizeMode = PictureBoxSizeMode.StretchImage;
+                this.pn.Controls.Add(pbstar);
+
                 PictureBox pbclick = new PictureBox();
                 pbclick.Size = new Size(20, 20);
-                pbclick.Location = new Point(650, ylocal);
+                pbclick.Location = new Point(660, ylocal);
                 Bitmap pbimg = new Bitmap(Application.StartupPath + "\\Resources\\icons8_Opened_Folder.png");
                 pbclick.Image = pbimg;
                 pbclick.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -103,7 +119,8 @@ namespace ProjectManagementFilm
                     LoadData(dataFilm);
                     break;
                 case 2:
-                    var dat = dataFilm.Where(f => f.favorite == 1).ToList();
+                    var dat = dataFilm.Where(f => f.favorite > 0).ToList();
+                    dat.Sort((a, b) => (b.favorite.CompareTo(a.favorite)));
                     LoadData(dat);
                     break;
             }
