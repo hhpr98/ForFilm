@@ -15,17 +15,21 @@ namespace ProjectManagementFilm
     {
         private Panel pn = new Panel();
         private int selIndex = 0;
-        private List<PhimClass> dataFilm = null;
+        private List<PhimClass> dataFilm = null; // data origin (data nguyên bản)
+        private List<PhimClass> dataToShow = null; // data qua quá trình lọc, sắp xếp, tìm kiếm
 
         public Main()
         {
             InitializeComponent();
             LoadComponent();
             dataFilm = getPhimFromFolder();
-            dataFilm.Sort((a, b) => (b.date.CompareTo(a.date)));
-            LoadData(dataFilm);
+            dataToShow = dataFilm.Where(p => p.id != -1).ToList();
+            dataToShow.Sort((a, b) => (b.date.CompareTo(a.date)));
+            LoadData(dataToShow);
         }
 
+        #region load
+        // load panel, thiết đặt kích thước, scroll theo chiều dọc
         private void LoadComponent()
         {
             this.Size = new Size(800, 600);
@@ -47,10 +51,11 @@ namespace ProjectManagementFilm
             //pn.Controls.Add(vScrollBar1);
 
             // comboBox sort
-            cbSort.DataSource = new List<string> { "Theo ngày xem", "Theo bảng chữ cái", "Theo độ ưu tiên" };
+            cbSort.DataSource = new List<string> { "Theo ngày xem", "Theo bảng chữ cái", "Theo độ ưu tiên", "Theo năm" };
             cbSort.SelectedIndexChanged += CbSort_SelectedIndexChanged;
         }
 
+        // load dữ liệu phim lên panel từ  list có sẵn
         private void LoadData(List<PhimClass> dataFilm)
         {
             int ylocal = 10;
@@ -77,7 +82,7 @@ namespace ProjectManagementFilm
                 lbStar.Size = new Size(15, 30);
                 lbStar.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
                 lbStar.ForeColor = Color.Red;
-                lbStar.Location = new Point(605, ylocal+1);
+                lbStar.Location = new Point(605, ylocal + 1);
                 this.pn.Controls.Add(lbStar);
 
                 PictureBox pbstar = new PictureBox();
@@ -103,39 +108,7 @@ namespace ProjectManagementFilm
             }
         }
 
-        private void CbSort_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            selIndex = cbSort.SelectedIndex;
-            this.pn.Controls.Clear();
-
-            switch (selIndex)
-            {
-                case 0:
-                    dataFilm.Sort((a, b) => (b.date.CompareTo(a.date)));
-                    LoadData(dataFilm);
-                    break;
-                case 1:
-                    dataFilm.Sort((a, b) => (a.nameFilm.CompareTo(b.nameFilm)));
-                    LoadData(dataFilm);
-                    break;
-                case 2:
-                    var dat = dataFilm.Where(f => f.favorite > 0).ToList();
-                    dat.Sort((a, b) => (b.favorite.CompareTo(a.favorite)));
-                    LoadData(dat);
-                    break;
-            }
-        }
-
-        private void Pbclick_Click(object sender, EventArgs e)
-        {
-            var pb = sender as PictureBox;
-            var id = int.Parse(pb.Name.Substring(1, pb.Name.Length - 1));
-            var find = dataFilm.Where(f => f.id == id).ToList();
-            var name = find[0].path;
-            var path = @"C:\git\ForFilm\data\" + name;
-            System.Diagnostics.Process.Start(path);
-        }
-
+        // lấy danh sách phim từ file, đọc dữ liệu và chuyển thành dạng class
         private List<PhimClass> getPhimFromFolder()
         {
             List<PhimClass> lf = new List<PhimClass>();
@@ -159,9 +132,62 @@ namespace ProjectManagementFilm
                 item.date = dateWatch;
                 var fav = str.Substring(str.Length - 17, 1);
                 item.favorite = int.Parse(fav);
+                var idx = str.LastIndexOf(")");
+                if (idx == -1)
+                    item.year = "0";
+                else
+                {
+                    var stringYear = str.Substring(idx - 4, 4);
+                    item.year = stringYear;
+                }
                 lf.Add(item);
             }
             return lf;
         }
+        #endregion
+
+        #region event
+        // combox changed event
+        private void CbSort_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selIndex = cbSort.SelectedIndex;
+            this.pn.Controls.Clear();
+
+            switch (selIndex)
+            {
+                case 0:
+                    dataToShow = dataFilm.Where(p => p.id != -1).ToList();
+                    dataToShow.Sort((a, b) => (b.date.CompareTo(a.date)));
+                    LoadData(dataToShow);
+                    break;
+                case 1:
+                    dataToShow = dataFilm.Where(p => p.id != -1).ToList();
+                    dataToShow.Sort((a, b) => (a.nameFilm.CompareTo(b.nameFilm)));
+                    LoadData(dataToShow);
+                    break;
+                case 2:
+                    dataToShow = dataFilm.Where(f => f.favorite > 0).ToList();
+                    dataToShow.Sort((a, b) => (b.favorite.CompareTo(a.favorite)));
+                    LoadData(dataToShow);
+                    break;
+                case 3:
+                    dataToShow = dataFilm.Where(p => p.id != -1).ToList();
+                    dataToShow.Sort((a, b) => (b.year.CompareTo(a.year)));
+                    LoadData(dataToShow);
+                    break;
+            }
+        }
+
+        // xem chi tiết 1 phim
+        private void Pbclick_Click(object sender, EventArgs e)
+        {
+            var pb = sender as PictureBox;
+            var id = int.Parse(pb.Name.Substring(1, pb.Name.Length - 1));
+            var find = dataFilm.Where(f => f.id == id).ToList();
+            var name = find[0].path;
+            var path = @"C:\git\ForFilm\data\" + name;
+            System.Diagnostics.Process.Start(path);
+        }
+        #endregion
     }
 }
