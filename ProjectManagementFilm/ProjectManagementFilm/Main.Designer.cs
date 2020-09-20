@@ -41,7 +41,7 @@
             // 
             this.cbSort.Font = new System.Drawing.Font("Times New Roman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbSort.FormattingEnabled = true;
-            this.cbSort.Location = new System.Drawing.Point(585, 12);
+            this.cbSort.Location = new System.Drawing.Point(562, 12);
             this.cbSort.Name = "cbSort";
             this.cbSort.Size = new System.Drawing.Size(120, 23);
             this.cbSort.TabIndex = 0;
@@ -51,7 +51,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(515, 15);
+            this.label1.Location = new System.Drawing.Point(504, 15);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(56, 16);
             this.label1.TabIndex = 1;

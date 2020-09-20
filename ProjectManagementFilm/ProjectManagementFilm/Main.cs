@@ -32,11 +32,11 @@ namespace ProjectManagementFilm
         // load panel, thiết đặt kích thước, scroll theo chiều dọc
         private void LoadComponent()
         {
-            this.Size = new Size(800, 600);
+            this.Size = new Size(850, 600);
             this.BackColor = Color.Black;
 
             pn.Location = new Point(40, 50);
-            pn.Size = new Size(700, 500);
+            pn.Size = new Size(750, 500);
             pn.BackColor = Color.White;
             this.Controls.Add(pn);
             pn.AutoScroll = false;
@@ -73,7 +73,7 @@ namespace ProjectManagementFilm
 
                 var lb = new Label();
                 lb.Text = dataFilm[i].nameFilm;
-                lb.Size = new Size(550, 30);
+                lb.Size = new Size(600, 30);
                 lb.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
                 lb.ForeColor = Color.Blue;
                 lb.Location = new Point(30, ylocal);
@@ -81,15 +81,15 @@ namespace ProjectManagementFilm
 
                 Label lbStar = new Label();
                 lbStar.Text = dataFilm[i].favorite.ToString();
-                lbStar.Size = new Size(15, 30);
+                lbStar.Size = new Size(20, 30);
                 lbStar.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
                 lbStar.ForeColor = Color.Red;
-                lbStar.Location = new Point(605, ylocal + 1);
+                lbStar.Location = new Point(645, ylocal + 1);
                 this.pn.Controls.Add(lbStar);
 
                 PictureBox pbstar = new PictureBox();
                 pbstar.Size = new Size(20, 20);
-                pbstar.Location = new Point(620, ylocal);
+                pbstar.Location = new Point(670, ylocal);
                 Bitmap pbStarImg = new Bitmap(Application.StartupPath + "\\Resources\\icons8_Star_Filled_48px.png");
                 pbstar.Image = pbStarImg;
                 pbstar.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -97,7 +97,7 @@ namespace ProjectManagementFilm
 
                 PictureBox pbclick = new PictureBox();
                 pbclick.Size = new Size(20, 20);
-                pbclick.Location = new Point(660, ylocal);
+                pbclick.Location = new Point(710, ylocal);
                 Bitmap pbimg = new Bitmap(Application.StartupPath + "\\Resources\\icons8_Opened_Folder.png");
                 pbclick.Image = pbimg;
                 pbclick.SizeMode = PictureBoxSizeMode.StretchImage;

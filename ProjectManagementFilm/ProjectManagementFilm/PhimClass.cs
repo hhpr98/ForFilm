@@ -12,7 +12,7 @@ namespace ProjectManagementFilm
         public string nameFilm { get; set; } // ex : Đường chuyên - TangDynastour (2018)
         public string path { get; set; } // ex : Đường chuyên - TangDynastour (2018) 20-07-2019.html
         public DateTime date { get; set; } // 20/07/2019
-        public int favorite { get; set; }
+        public int favorite { get; set; } // 0-9
         public string year { get; set; }
     }
 }
