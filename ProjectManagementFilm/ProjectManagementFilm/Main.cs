@@ -53,6 +53,8 @@ namespace ProjectManagementFilm
             // comboBox sort
             cbSort.DataSource = new List<string> { "Theo ngày xem", "Theo bảng chữ cái", "Theo độ ưu tiên", "Theo năm" };
             cbSort.SelectedIndexChanged += CbSort_SelectedIndexChanged;
+            cbFilter.DataSource = new List<string> { "Tất cả", "2020", "2019", "2018", "2017", "2016", "2015", "2014", "2013", "2012", "2011", "2010", "2009", "2008", "2007", "2006", "2005", "2004", "2003", "2002", "2001", "2000", "<2000" };
+            cbFilter.SelectedIndexChanged += CbFilter_SelectedIndexChanged;
         }
 
         // load dữ liệu phim lên panel từ  list có sẵn
@@ -190,6 +192,7 @@ namespace ProjectManagementFilm
             System.Diagnostics.Process.Start(path);
         }
 
+        // search click
         private void btnSearch_Click(object sender, EventArgs e)
         {
             var txt = txtSearch.Text;
@@ -207,12 +210,38 @@ namespace ProjectManagementFilm
             }
         }
 
+        // clear click
         private void btnClear_Click(object sender, EventArgs e)
         {
             txtSearch.Text = "";
             dataToShow = dataFilm.Where(p => p.id != -1).ToList();
-            dataToShow.Sort((a, b) => (a.nameFilm.CompareTo(b.nameFilm)));
+            dataToShow.Sort((a, b) => (a.date.CompareTo(b.date)));
             LoadData(dataToShow);
+        }
+
+        private void CbFilter_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var cbFil = sender as ComboBox;
+            //MessageBox.Show(cbFil.Text);
+
+            if (cbFil.Text == "Tất cả")
+            {
+                dataToShow = dataFilm.Where(p => p.id != -1).ToList();
+                dataToShow.Sort((a, b) => (a.date.CompareTo(b.date)));
+                LoadData(dataToShow);
+            }
+            else if (cbFil.Text == "<2000")
+            {
+                dataToShow = dataFilm.Where(p => p.year[0] != '2').ToList();
+                dataToShow.Sort((a, b) => (a.date.CompareTo(b.date)));
+                LoadData(dataToShow);
+            }
+            else
+            {
+                dataToShow = dataFilm.Where(p => p.year == cbFil.Text).ToList();
+                dataToShow.Sort((a, b) => (a.date.CompareTo(b.date)));
+                LoadData(dataToShow);
+            }
         }
         #endregion
     }
