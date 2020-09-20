@@ -58,6 +58,8 @@ namespace ProjectManagementFilm
         // load dữ liệu phim lên panel từ  list có sẵn
         private void LoadData(List<PhimClass> dataFilm)
         {
+            this.pn.Controls.Clear(); // clear 
+
             int ylocal = 10;
             for (int i = 0; i < dataFilm.Count(); i++)
             {
@@ -151,7 +153,6 @@ namespace ProjectManagementFilm
         private void CbSort_SelectedIndexChanged(object sender, EventArgs e)
         {
             selIndex = cbSort.SelectedIndex;
-            this.pn.Controls.Clear();
 
             switch (selIndex)
             {
@@ -187,6 +188,31 @@ namespace ProjectManagementFilm
             var name = find[0].path;
             var path = @"C:\git\ForFilm\data\" + name;
             System.Diagnostics.Process.Start(path);
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            var txt = txtSearch.Text;
+            if (txt == "")
+            {
+                dataToShow = dataFilm.Where(p => p.id != -1).ToList();
+                dataToShow.Sort((a, b) => (a.nameFilm.CompareTo(b.nameFilm)));
+                LoadData(dataToShow);
+            }
+            else
+            {
+                dataToShow = dataFilm.Where(p => p.nameFilm.ToLower().Contains(txt.ToLower())).ToList();
+                dataToShow.Sort((a, b) => (a.date.CompareTo(b.date)));
+                LoadData(dataToShow);
+            }
+        }
+
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            txtSearch.Text = "";
+            dataToShow = dataFilm.Where(p => p.id != -1).ToList();
+            dataToShow.Sort((a, b) => (a.nameFilm.CompareTo(b.nameFilm)));
+            LoadData(dataToShow);
         }
         #endregion
     }
