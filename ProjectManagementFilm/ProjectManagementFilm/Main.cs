@@ -205,7 +205,7 @@ namespace ProjectManagementFilm
             else
             {
                 dataToShow = dataFilm.Where(p => p.nameFilm.ToLower().Contains(txt.ToLower())).ToList();
-                dataToShow.Sort((a, b) => (a.date.CompareTo(b.date)));
+                dataToShow.Sort((a, b) => (b.date.CompareTo(a.date)));
                 LoadData(dataToShow);
             }
         }
@@ -215,7 +215,7 @@ namespace ProjectManagementFilm
         {
             txtSearch.Text = "";
             dataToShow = dataFilm.Where(p => p.id != -1).ToList();
-            dataToShow.Sort((a, b) => (a.date.CompareTo(b.date)));
+            dataToShow.Sort((a, b) => (b.date.CompareTo(a.date)));
             LoadData(dataToShow);
         }
 
@@ -227,19 +227,19 @@ namespace ProjectManagementFilm
             if (cbFil.Text == "Tất cả")
             {
                 dataToShow = dataFilm.Where(p => p.id != -1).ToList();
-                dataToShow.Sort((a, b) => (a.date.CompareTo(b.date)));
+                dataToShow.Sort((a, b) => (b.date.CompareTo(a.date)));
                 LoadData(dataToShow);
             }
             else if (cbFil.Text == "<2000")
             {
                 dataToShow = dataFilm.Where(p => p.year[0] != '2').ToList();
-                dataToShow.Sort((a, b) => (a.date.CompareTo(b.date)));
+                dataToShow.Sort((a, b) => (b.date.CompareTo(a.date)));
                 LoadData(dataToShow);
             }
             else
             {
                 dataToShow = dataFilm.Where(p => p.year == cbFil.Text).ToList();
-                dataToShow.Sort((a, b) => (a.date.CompareTo(b.date)));
+                dataToShow.Sort((a, b) => (b.date.CompareTo(a.date)));
                 LoadData(dataToShow);
             }
         }
